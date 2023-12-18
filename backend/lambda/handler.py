@@ -14,6 +14,6 @@
 import os
 
 def handler(context, event):
-    print(os.environ['TABLE_NAME'])
+    print(f"{os.environ['TABLE_NAME']=}")
     print(f"{context=} {event=}")
     return os.environ['TABLE_NAME']
