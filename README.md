@@ -24,10 +24,10 @@ App - container for one or more Stacks
 ### Installation
 ```
 $ npm install -g aws-cdk
-$ python3 -m venv cdk-env
-$ source cdk-env/bin/activate
-$ python3 -m pip install aws-cdk-lib
 ```
+
+OIDC https://aws.amazon.com/blogs/security/use-iam-roles-to-connect-github-actions-to-actions-in-aws/
+
 
 ```
 $ cd cdk

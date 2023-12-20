@@ -45,5 +45,4 @@ jobs:
       - run: |
           cd cdk && 
           npm install && 
-          cdk synth
-      # - run: cd ../cdk/ && cdk deploy --require-approval never
+          cdk deploy --require-approval never
