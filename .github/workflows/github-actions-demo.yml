@@ -5,11 +5,12 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
-
 env:
   DEPLOY_ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
-  ENV_VAR: ${{ vars.ENV_VAR }}
-
+  AWS_REGION: "us-east-1"
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read # This is required for actions/checkout
 jobs:
   deployment:
     runs-on: ubuntu-latest
@@ -19,6 +20,12 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::645293059982:role/cdk-hnb659fds-deploy-role-645293059982-us-east-1
+          role-session-name: Github Actions pf-app
+          aws-region: ${{ env.AWS_REGION }}
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -35,4 +42,5 @@ jobs:
       - run: pipenv run python3 -V
       - run: pipenv run python3 -c "import os; print(os.getenv('DEPLOY_ENV'))"
       - run: pipenv run python3 -c "import os; print(os.getenv('ENV_VAR'))"
+      - run: cd ../cdk/ && cdk synth
       # - run: cd ../cdk/ && cdk deploy --require-approval never
