@@ -24,7 +24,6 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::645293059982:role/cdk-hnb659fds-deploy-role-645293059982-us-east-1
-          role-session-name: Github Actions pf-app
           aws-region: ${{ env.AWS_REGION }}
       - name: Setup node
         uses: actions/setup-node@v4
