@@ -1,5 +1,5 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+name: Personal Finance App Deployment
+run-name: Deploy to ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
 on:
   push:
     branches: [main]
@@ -25,9 +25,8 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
-          cache: pip
-      - run: pip install -r cdk/requirements.txt
+          python-version: "3.11"
+          cache: pipenv
       - run: python3 -V
       - run: python3 -c "import os; print(os.getenv('DEPLOY_ENV')")
       - run: python3 -c "import os; print(os.getenv('ENV_VAR')")
