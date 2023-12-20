@@ -37,11 +37,12 @@ jobs:
           python-version: "3.11"
           cache: pipenv
       - run: pip install pipenv
-      - run: cd backend && pipenv install
-      - run: pipenv run python3 -V
-      - run: pipenv run python3 -c "import os; print(os.getenv('DEPLOY_ENV'))"
-      - run: pipenv run python3 -c "import os; print(os.getenv('ENV_VAR'))"
-      - run: ls
-      - run: ls ..
-      # - run: cd ../cdk && cdk synth
+      - run: |
+          cd backend && 
+          pipenv install && 
+          pipenv run python3 -V &&
+          pipenv run python3 -c "import os; print(os.getenv('DEPLOY_ENV'))" &&
+          pipenv run python3 -c "import boto3"
+      - run: |
+          cd cdk && cdk synth
       # - run: cd ../cdk/ && cdk deploy --require-approval never
