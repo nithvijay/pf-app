@@ -12,7 +12,7 @@ env:
 jobs:
   deployment:
     runs-on: ubuntu-latest
-    # environment: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }} # how to use env context here?
+    # environment: ${{ github.ref == 'refs/heads/main' && production || development }} # how to use env context here?
     environment: development # how to use env context here?
     steps:
       - name: Check out repository code
