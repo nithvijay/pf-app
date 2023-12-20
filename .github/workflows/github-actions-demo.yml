@@ -30,7 +30,6 @@ jobs:
         with:
           node-version: 20
       - run: npm install -g aws-cdk
-      - run: cdk --version
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -44,5 +43,7 @@ jobs:
           pipenv run python3 -c "import os; print(os.getenv('DEPLOY_ENV'))" &&
           pipenv run python3 -c "import boto3"
       - run: |
-          cd cdk && cdk synth
+          cd cdk && 
+          npm install && 
+          cdk synth
       # - run: cd ../cdk/ && cdk deploy --require-approval never
