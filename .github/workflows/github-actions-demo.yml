@@ -8,12 +8,14 @@ on:
 
 env:
   DEPLOY_ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+  ENV_VAR: ${{ vars.ENV_VAR }}
 
 jobs:
   deployment:
     runs-on: ubuntu-latest
     # environment: ${{ github.ref == 'refs/heads/main' && production || development }} # how to use env context here?
     environment: development # how to use env context here?
+
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
@@ -33,3 +35,4 @@ jobs:
       - run: pipenv run python3 -V
       - run: pipenv run python3 -c "import os; print(os.getenv('DEPLOY_ENV'))"
       - run: pipenv run python3 -c "import os; print(os.getenv('ENV_VAR'))"
+      # - run: cd ../cdk/ && cdk deploy --require-approval never
