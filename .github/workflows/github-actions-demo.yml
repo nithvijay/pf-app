@@ -28,5 +28,5 @@ jobs:
           python-version: "3.11"
           cache: pipenv
       - run: python3 -V
-      - run: python3 -c "import os; print(os.getenv('DEPLOY_ENV')")
-      - run: python3 -c "import os; print(os.getenv('ENV_VAR')")
+      - run: python3 -c "import os; print(os.getenv('DEPLOY_ENV'))"
+      - run: python3 -c "import os; print(os.getenv('ENV_VAR'))"
