@@ -1,0 +1,50 @@
+name: Personal Finance App Deployment
+run-name: Deploy to ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  DEPLOY_ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+  AWS_REGION: "us-east-1"
+permissions:
+  id-token: write # This is required for requesting the JWT
+  contents: read # This is required for actions/checkout
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    # environment: ${{ github.ref == 'refs/heads/main' && production || development }} # how to use env context here?
+    environment: development # how to use env context here?
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::645293059982:role/GitHubActionsCDKRole
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install -g aws-cdk
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pipenv
+      - run: pip install pipenv
+      - run: |
+          cd backend && 
+          pipenv install && 
+          pipenv run python3 -V &&
+          pipenv run python3 -c "import os; print(os.getenv('DEPLOY_ENV'))" &&
+          pipenv run python3 -c "import boto3"
+      - run: |
+          cd cdk && 
+          npm install && 
+          cdk deploy --require-approval never --verbose
